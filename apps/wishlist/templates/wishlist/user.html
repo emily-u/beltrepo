@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="/dashboard">Home</a>
+    <a href="/logout">Logout</a>
+
+    <h1>{{useritems.item}}</h1>
+
+    <h2>Users who added this product/item under their wish list:</h2>
+
+
+    <h4>{{useritems.creator.username}}</h4>
+    {% if liker %} {% for i in liker %}
+    <h4>{{i.username}}</h4>
+    {% endfor %} {% endif %}
+
+
+</body>
+
+</html>

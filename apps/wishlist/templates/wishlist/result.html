@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <h2>Welcome, {{ user.username }}!</h2>
+        <a href="/logout">Log out</a>
+    </div>
+
+    <h3>Your Wish List:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Added by</th>
+                <th>Date Added</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in all_lists %} {% if user in i.follower.all %}
+            <tr>
+                <td><a href="/wish_items/{{i.id}}">{{i.item}}</a></td>
+                <td>{{i.creator.username }}</td>
+                <td>{{i.created_at |date:'M d Y'}}</td>
+                <td><a href="/remove/{{i.id}}">Remove from my Wishlist</a></td>
+            </tr>
+            {% endif %} {% endfor %} {% for i in all_lists %} {% if request.session.user_id == i.creator.id %}
+            <tr>
+                <td><a href="/wish_items/{{i.id}}">{{i.item}}</a></td>
+                <td>{{i.creator.username }}</td>
+                <td>{{i.created_at |date:'M d Y'}}</td>
+                <td><a href="/delete/{{i.id}}">Delete</a></td>
+            </tr>
+            {% endif %} {% endfor %}
+
+        </tbody>
+    </table><br>
+
+    <h3>Other Users' Wish List:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Added by</th>
+                <th>Date Added</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in all_lists %} {% if request.session.user_id != i.creator.id and user not in i.follower.all%}
+            <tr>
+                <td><a href="/wish_items/{{i.id}}">{{i.item}}</a></td>
+                <td>{{i.creator.username}}</td>
+                <td>{{i.updated_at |date:'M d Y' }}</td>
+                <td>
+                    <form action="/add/{{i.id}}" method="POST">
+                        {% csrf_token %}
+                        <a href="/add/{{i.id}}">Add to my Wishlist</a>
+                    </form>
+                </td>
+            </tr>
+            {% endif %} {% endfor %}
+
+
+        </tbody>
+    </table>
+
+    <a href="/wish_items/create">
+        <h2>Add Item</h2>
+    </a>
+
+
+</body>
+
+</html>

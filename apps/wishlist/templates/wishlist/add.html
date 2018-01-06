@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="/dashboard">Home</a>
+    <a href="/logout">Logout</a> {% if messages %} {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %} {% endif %}
+
+    <div>
+        <form action="/wish_items/create" method="POST">
+            {% csrf_token %}
+            <h3>Create a New Wish List Item:</h3>
+            Item/Product:
+            <input type="textarea" name="item"><br>
+
+            <button>Add</button>
+        </form>
+
+    </div>
+
+</body>
+
+</html>
